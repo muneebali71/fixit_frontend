@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FixIt · Verified bug fixes as pull requests</title>
+    <meta name="description" content="Give FixIt a repo link. A team of agents finds problems, proves each one with a test, and opens one pull request per fix you approve." />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/landing.css" />
+    <script>try{var t=localStorage.getItem("fixit.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  </head>
+  <body class="site">
+    <header class="site-nav" id="site-nav">
+      <div class="inner">
+        <a class="brand" href="index.html"><span class="brand-mark"><i data-icon="logo"></i></span>FixIt</a>
+        <nav class="links" aria-label="Sections">
+          <a href="#how">How it works</a>
+          <a href="#team">Agents</a>
+          <a href="#proof">Proof</a>
+          <a href="#safety">Safety</a>
+        </nav>
+        <div class="cta">
+          <button class="icon-btn" data-toggle-theme aria-label="Switch theme"><span data-theme-icon><i data-icon="moon"></i></span></button>
+          <a class="btn btn-ghost" href="signin.html">Sign in</a>
+          <a class="btn btn-primary" href="signin.html?mode=signup">Get started</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <div class="eyebrow">Agents that prove their fixes</div>
+            <h1>Give it a repo link.<br />Get back <span class="accent">verified fixes</span> as pull requests.</h1>
+            <p class="lede">FixIt maps your code into a knowledge graph, sends a team of specialist agents over it, and reproduces every problem with a failing test before you see it. You pick what to fix; each fix is tested against your whole suite and opens as its own pull request.</p>
+
+            <form class="hero-form" id="hero-form" action="signin.html">
+              <label class="input-group">
+                <span class="addon"><i data-icon="gitRepo"></i></span>
+                <input class="input" id="hero-url" aria-label="Repository URL" placeholder="https://github.com/owner/repo" autocomplete="off" />
+              </label>
+              <button class="btn btn-primary btn-lg" type="submit"><i data-icon="play"></i>Scan repo</button>
+            </form>
+
+            <div class="proof-row">
+              <span><i data-icon="checkCircle"></i>Every finding reproduced</span>
+              <span><i data-icon="checkCircle"></i>Every fix tested</span>
+              <span><i data-icon="checkCircle"></i>You approve every PR</span>
+            </div>
+          </div>
+
+          <div class="demo" aria-label="Example run">
+            <div class="demo-badge tests"><i data-icon="checkCircle"></i><span>215 tests passed</span></div>
+            <div class="demo-card">
+              <div class="demo-top">
+                <span class="repo-avatar" style="background:#2364b8">IA</span>
+                <div class="repo">inventory-api<span>dev · 4e1b9c2a</span></div>
+                <span class="pill pill-running is-live" id="demo-pill"><span class="dot"></span><span id="demo-status">Running</span></span>
+              </div>
+              <div class="demo-phases" id="demo-phases"></div>
+              <div class="demo-list" id="demo-list"></div>
+              <div class="demo-foot"><span id="demo-step">Cloning into a sandbox…</span><span class="num" id="demo-cost">$0.00 / $2.00</span></div>
+            </div>
+            <div class="demo-badge pr"><i data-icon="pr"></i><span>PR #42 opened</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="how">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div class="eyebrow">How it works</div>
+            <h2>From a link to a pull request, with a test at every step</h2>
+            <p>Cheap checks run first. Agents only look where the graph and the scanners point, and nothing reaches you until it has been reproduced.</p>
+          </div>
+          <div class="flow">
+            <svg class="flow-line" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="1" x2="100%" y2="1" /></svg>
+            <div class="flow-step reveal">
+              <div class="flow-icon"><i data-icon="graph"></i></div>
+              <span class="n">01</span>
+              <h3>Map the repo</h3>
+              <p>Clone at one commit in a sandbox, run tests and scanners, and build a graph of files, symbols, calls and covering tests.</p>
+            </div>
+            <div class="flow-step reveal">
+              <div class="flow-icon"><i data-icon="target"></i></div>
+              <span class="n">02</span>
+              <h3>Plan the hunt</h3>
+              <p>A supervisor reads a 2k-token summary and splits the work into scoped tasks with strict briefs and budgets.</p>
+            </div>
+            <div class="flow-step reveal">
+              <div class="flow-icon"><i data-icon="users"></i></div>
+              <span class="n">03</span>
+              <h3>Specialists search</h3>
+              <p>Regression, security, leaks, bugs and improvements agents each see only their slice of the graph.</p>
+            </div>
+            <div class="flow-step reveal">
+              <div class="flow-icon"><i data-icon="shieldCheck"></i></div>
+              <span class="n">04</span>
+              <h3>Reviewer proves it</h3>
+              <p>Every finding is reproduced with a test in the sandbox. Unconfirmed ones are labelled and never auto-fixed.</p>
+            </div>
+            <div class="flow-step reveal">
+              <div class="flow-icon"><i data-icon="pr"></i></div>
+              <span class="n">05</span>
+              <h3>You approve the fix</h3>
+              <p>A failing test, a small patch, the full suite green and a code review. Approve it and FixIt opens the PR.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="team">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div class="eyebrow">The agent team</div>
+            <h2>A supervisor and five specialists, each with one job</h2>
+            <p>Specialists never talk to each other. Every hand-off is a typed object, so each agent's context stays small and auditable.</p>
+          </div>
+          <div class="team">
+            <div class="agent-tile lead reveal">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent)"><i data-icon="target"></i></span>
+              <h3>Supervisor</h3>
+              <p>Reads the repo summary and scanner results, plans up to 12 scoped tasks, then ranks the verified findings into one report by severity × confidence − fix effort.</p>
+              <div class="row"><span class="chip chip-mono">strong model</span><span class="chip chip-mono">read-only graph</span></div>
+            </div>
+            <div class="agent-tile reveal">
+              <span class="ic" style="background:var(--info-soft);color:var(--cat-regression)"><i data-icon="replay"></i></span>
+              <h3>Regression</h3>
+              <p>Compares changed symbols with the base branch and the tests that touch them.</p>
+            </div>
+            <div class="agent-tile reveal">
+              <span class="ic" style="background:var(--danger-soft);color:var(--cat-security)"><i data-icon="shield"></i></span>
+              <h3>Security</h3>
+              <p>Follows bandit, semgrep and pip-audit hits through the graph to real entry points.</p>
+            </div>
+            <div class="agent-tile reveal">
+              <span class="ic" style="background:var(--violet-soft);color:var(--cat-leak)"><i data-icon="eye"></i></span>
+              <h3>Leaks</h3>
+              <p>Unclosed sessions and files, and secrets that end up in logs.</p>
+            </div>
+            <div class="agent-tile reveal">
+              <span class="ic" style="background:var(--warn-soft);color:var(--cat-bug)"><i data-icon="bug"></i></span>
+              <h3>Bugs and logic</h3>
+              <p>Off-by-ones, wrong comparisons and type errors the checkers hint at.</p>
+            </div>
+            <div class="agent-tile reveal">
+              <span class="ic" style="background:var(--accent-soft);color:var(--cat-improvement)"><i data-icon="sparkles"></i></span>
+              <h3>Improvements</h3>
+              <p>Duplication and slow queries, as suggestions. Never fixed automatically.</p>
+            </div>
+            <div class="agent-tile reveal">
+              <span class="ic" style="background:var(--ok-soft);color:var(--ok)"><i data-icon="shieldCheck"></i></span>
+              <h3>Reviewer</h3>
+              <p>Sees one finding and how to run the tests, never the specialist's reasoning.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="proof">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div class="eyebrow">Proof, not claims</div>
+            <h2>A failing test before the fix. A green suite after it.</h2>
+            <p>Success means the new test passes, the existing suite still passes, the diff stays small and in scope, and a human approved it.</p>
+          </div>
+          <div class="proof">
+            <div class="card reveal">
+              <div class="card-head"><h2>Before: the reproducer</h2><span class="sev sev-critical">critical</span></div>
+              <div class="card-body">
+                <div class="test-run" id="test-before">
+                  <div class="dim">$ pytest tests/regression/test_search_injection.py -q</div>
+                  <div class="bad">F</div>
+                  <div class="bad">FAILED test_search_term_is_data_not_sql[x' OR '1'='1]</div>
+                  <div>&nbsp;&nbsp;AssertionError: assert 40 == 0</div>
+                  <div class="bad">1 failed in 0.41s</div>
+                </div>
+              </div>
+            </div>
+            <div class="card reveal">
+              <div class="card-head"><h2>After: the full suite</h2><span class="verdict verdict-confirmed"><i data-icon="checkCircle"></i>Approved by reviewer</span></div>
+              <div class="card-body">
+                <div class="test-run">
+                  <div class="dim">$ pytest -q</div>
+                  <div class="ok">........................................ [ 18%]</div>
+                  <div class="ok">........................................ [ 37%]</div>
+                  <div class="ok">........................................ [ 93%]</div>
+                  <div class="ok">215 passed in 42.6s</div>
+                  <div class="dim">diff guard: 2 files, +9 −2, no CI or lockfile edits</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="stat-strip reveal">
+            <div><b data-count="0">0</b><span>auto-fixes of unverified findings</span></div>
+            <div><b data-count="5">5</b><span>fix attempts at most, each with a failure note</span></div>
+            <div><b data-count="2">2</b><span>code-review rounds before it reaches you</span></div>
+            <div><b data-count="1">1</b><span>pull request per approved finding</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="safety">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div class="eyebrow">Safety and privacy</div>
+            <h2>Code written by a model, run on code written by strangers, treated as hostile</h2>
+            <p>Everything that plain code can check stays plain code: tests, diff size, allowed commands and permissions.</p>
+          </div>
+          <div class="safety">
+            <div class="box reveal"><i data-icon="box"></i><h3>A sandbox per run</h3><p>Non-root Docker container, read-only base, CPU and memory limits, no network except the package mirror and git host. Destroyed after the run.</p></div>
+            <div class="box reveal"><i data-icon="terminal"></i><h3>Command allowlist</h3><p>pytest, npm test, grep, ls, git diff. Agents never hold your GitHub token; only the final PR step does.</p></div>
+            <div class="box reveal"><i data-icon="layers"></i><h3>Diff guard</h3><p>Caps files and lines changed. No edits to CI, lockfiles or secrets. Tests may be added, never deleted or weakened.</p></div>
+            <div class="box reveal"><i data-icon="lock"></i><h3>Your data stays yours</h3><p>Every query is filtered by organization, and Postgres row-level security enforces it again. No user can see another's runs or code.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top:0">
+        <div class="wrap">
+          <div class="cta-band reveal">
+            <div>
+              <h2>Point it at a repo you know well</h2>
+              <p>See what it finds, how it proves it and what the fix looks like.</p>
+            </div>
+            <a class="btn btn-lg" href="dashboard.html">Open the demo dashboard<i data-icon="arrowRight"></i></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap inner">
+        <a class="brand" href="index.html" style="font-size:16px"><span class="brand-mark" style="width:26px;height:26px"><i data-icon="logo"></i></span>FixIt</a>
+        <span>Preview build with mock data · <span id="year"></span></span>
+      </div>
+    </footer>
+
+    <script src="assets/js/mock-data.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/pages/landing.js"></script>
+  </body>
+</html>

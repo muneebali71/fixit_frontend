@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in · FixIt</title>
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/landing.css" />
+    <script>try{var t=localStorage.getItem("fixit.theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  </head>
+  <body>
+    <div class="auth">
+      <main class="auth-main">
+        <div class="auth-card">
+          <a class="brand" href="index.html"><span class="brand-mark"><i data-icon="logo"></i></span>FixIt</a>
+
+          <div>
+            <h1 id="auth-title">Welcome back</h1>
+            <p class="sub" id="auth-sub">Sign in to see your runs, findings and fixes.</p>
+          </div>
+
+          <div class="seg" role="group" aria-label="Sign in or create an account">
+            <button type="button" data-mode="signin" aria-pressed="true">Sign in</button>
+            <button type="button" data-mode="signup" aria-pressed="false">Create account</button>
+          </div>
+
+          <form id="auth-form" class="stack-sm" novalidate>
+            <div class="field" data-only="signup" hidden>
+              <label class="label" for="name">Name</label>
+              <input class="input" id="name" name="name" autocomplete="name" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <input class="input" id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
+            </div>
+            <div class="field">
+              <div class="row-between">
+                <label class="label" for="password">Password</label>
+                <a href="#" class="hint" data-only="signin" id="forgot">Forgot password?</a>
+              </div>
+              <input class="input" id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••••" required />
+              <span class="hint" data-only="signup" hidden>At least 12 characters. We'll email you a code to verify the address.</span>
+            </div>
+            <p class="hint" id="auth-error" role="alert" style="color:var(--danger)" hidden></p>
+            <button class="btn btn-primary btn-lg" type="submit" id="auth-submit" style="width:100%;margin-top:6px">Sign in</button>
+          </form>
+
+          <div class="or">or</div>
+          <button class="btn btn-lg" type="button" id="sso" style="width:100%"><i data-icon="gitRepo"></i>Continue with GitHub</button>
+
+          <div class="notice notice-info">
+            <i data-icon="info"></i>
+            <span>Preview only: nothing is sent anywhere. Any email and password take you to the demo dashboard. The real app signs in through AWS Cognito, with optional MFA.</span>
+          </div>
+        </div>
+      </main>
+
+      <aside class="auth-side" aria-hidden="true">
+        <div class="orbit"></div>
+        <a class="brand" href="index.html" style="color:#fff"><span class="brand-mark"><i data-icon="logo"></i></span>FixIt</a>
+        <blockquote>Nothing reaches you until a test has reproduced it.</blockquote>
+        <div class="points">
+          <span><i data-icon="checkCircle"></i>Specialist agents for security, leaks, bugs and regressions</span>
+          <span><i data-icon="checkCircle"></i>Every fix proven against your full test suite</span>
+          <span><i data-icon="checkCircle"></i>One pull request per fix, only after you approve</span>
+          <span><i data-icon="lock"></i>Your runs, code and findings are private to your workspace</span>
+        </div>
+      </aside>
+    </div>
+
+    <script src="assets/js/mock-data.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        const UI = window.FixItUI;
+        UI.hydrateIcons();
+
+        const form = document.getElementById("auth-form");
+        const submit = document.getElementById("auth-submit");
+        const error = document.getElementById("auth-error");
+        const copy = {
+          signin: ["Welcome back", "Sign in to see your runs, findings and fixes.", "Sign in", "current-password"],
+          signup: ["Create your workspace", "Your first sign-in creates a private workspace for your runs.", "Create account", "new-password"],
+        };
+
+        function setMode(mode) {
+          const [title, sub, button, autocomplete] = copy[mode];
+          document.getElementById("auth-title").textContent = title;
+          document.getElementById("auth-sub").textContent = sub;
+          submit.textContent = button;
+          document.getElementById("password").setAttribute("autocomplete", autocomplete);
+          document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+          document.querySelectorAll("[data-only]").forEach((el) => (el.hidden = el.dataset.only !== mode));
+          form.dataset.mode = mode;
+          error.hidden = true;
+        }
+
+        document.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+        setMode(UI.qs("mode") === "signup" ? "signup" : "signin");
+
+        function enter(label) {
+          submit.classList.add("is-loading");
+          submit.dataset.label = label;
+          setTimeout(() => (location.href = "dashboard.html"), 900);
+        }
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = form.email.value.trim();
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+            error.textContent = "Enter a valid email address.";
+            error.hidden = false;
+            form.email.classList.add("is-invalid");
+            form.email.focus();
+            return;
+          }
+          form.email.classList.remove("is-invalid");
+          if (!form.password.value) {
+            error.textContent = "Enter your password.";
+            error.hidden = false;
+            form.password.focus();
+            return;
+          }
+          // Mock: the values are never sent or stored.
+          form.password.value = "";
+          enter("Signing in");
+        });
+
+        document.getElementById("sso").addEventListener("click", () => enter("GitHub"));
+        document.getElementById("forgot").addEventListener("click", (e) => {
+          e.preventDefault();
+          UI.toast("info", "Password reset", "In the real app Cognito emails you a reset code.");
+        });
+      })();
+    </script>
+  </body>
+</html>
